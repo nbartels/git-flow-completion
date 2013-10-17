@@ -110,11 +110,19 @@ __git_flow_feature ()
 		return
 		;;
 	publish)
-		__gitcomp "$(diff <(__git_flow_list_branches 'feature') <(__git_flow_list_remote_branches 'feature') | grep '<' | sed s,^'< ',, )" 
+		__git_flow_list_branches 'feature' > /tmp/local_branch
+		__git_flow_list_remote_branches 'feature' > /tmp/remote_branch
+		__gitcomp "$(diff /tmp/local_branch /tmp/remote_branch | grep '< ' | sed s,^'< ',, )"
+		rm /tmp/local_branch
+		rm /tmp/remote_branch
 		return
 		;;
 	track)
-		__gitcomp "$(diff <(__git_flow_list_remote_branches 'feature') <(__git_flow_list_branches 'feature') | grep '<' | sed s,^'< ',,)"
+		__git_flow_list_branches 'feature' > /tmp/local_branch
+		__git_flow_list_remote_branches 'feature' > /tmp/remote_branch
+		__gitcomp "$(diff /tmp/remote_branch /tmp/local_branch | grep '< ' | sed s,^'< ',, )"
+		rm /tmp/local_branch
+		rm /tmp/remote_branch
 		return
 		;;
 	*)
@@ -138,11 +146,19 @@ __git_flow_release ()
 		return
 		;;
 	publish)
-		__gitcomp "$(diff <(__git_flow_list_branches 'release') <(__git_flow_list_remote_branches 'release') | grep '<' | sed s,^'< ',,)"
+		__git_flow_list_branches 'release' > /tmp/local_branch
+		__git_flow_list_remote_branches 'release' > /tmp/remote_branch
+		__gitcomp "$(diff /tmp/local_branch /tmp/remote_branch | grep '< ' | sed s,^'< ',, )"
+		rm /tmp/local_branch
+		rm /tmp/remote_branch
 		return
 		;;
 	track)
-		__gitcomp "$(diff <(__git_flow_list_remote_branches 'release') <(__git_flow_list_branches 'release') | grep '<' | sed s,^'< ',,)"
+		__git_flow_list_branches 'release' > /tmp/local_branch
+		__git_flow_list_remote_branches 'release' > /tmp/remote_branch
+		__gitcomp "$(diff /tmp/remote_branch /tmp/local_branch | grep '< ' | sed s,^'< ',, )"
+		rm /tmp/local_branch
+		rm /tmp/remote_branch
 		return
 		;;
 	*)
@@ -167,11 +183,19 @@ __git_flow_hotfix ()
 		return
 		;;
 	publish)
-		__gitcomp "$(diff <(__git_flow_list_branches 'hotfix') <(__git_flow_list_remote_branches 'hotfix') | grep '<' | sed s,^'< ',,)"
+		__git_flow_list_branches 'hotfix' > /tmp/local_branch
+		__git_flow_list_remote_branches 'hotfix' > /tmp/remote_branch
+		__gitcomp "$(diff /tmp/local_branch /tmp/remote_branch | grep '< ' | sed s,^'< ',, )"
+		rm /tmp/local_branch
+		rm /tmp/remote_branch
 		return
 		;;
 	track)
-		__gitcomp "$(diff <(__git_flow_list_remote_branches 'hotfix') <(__git_flow_list_branches 'hotfix') | grep '<' | sed s,^'< ',,)"
+		__git_flow_list_branches 'hotfix' > /tmp/local_branch
+		__git_flow_list_remote_branches 'hotfix' > /tmp/remote_branch
+		__gitcomp "$(diff /tmp/remote_branch /tmp/local_branch | grep '< ' | sed s,^'< ',, )"
+		rm /tmp/local_branch
+		rm /tmp/remote_branch
 		return
 		;;
 	*)
